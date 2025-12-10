@@ -12,12 +12,12 @@ export async function POST(req: Request) {
     }
 
     if (!prompt || typeof prompt !== "string") {
-      return NextResponse.json({ error: "Missing prompt" }, { status: 400 });
+      return NextResponse. json({ error: "Missing prompt" }, { status: 400 });
     }
 
     const key = process.env.GROQ_API_KEY;
 
-    if (!key) {
+    if (! key) {
       return NextResponse.json({ error: "GROQ_API_KEY not configured" }, { status: 500 });
     }
 
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     const raw = await res.text();
 
     if (!raw) {
-      return NextResponse.json(
+      return NextResponse. json(
         { error: `Groq returned empty response (${res.status})` },
         { status: res.status || 502 }
       );
@@ -83,10 +83,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const text = json?.choices?.[0]?.message?.content || "";
+    const text = json?. choices?.[0]?.message?. content || "";
 
     if (!text) {
-      return NextResponse.json(
+      return NextResponse. json(
         { error: "Groq response had no content" },
         { status: 500 }
       );
