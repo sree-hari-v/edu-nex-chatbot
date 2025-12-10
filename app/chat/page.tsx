@@ -538,7 +538,7 @@ export default function ChatPage() {
       {/* Floating Bottom Input Bar */}
       <div className="sticky bottom-0 z-40 px-4 pb-4 pt-2">
         <div className="mx-auto max-w-3xl">
-          <div className={`relative flex items-center gap-2 p-2 rounded-[26px] shadow-lg border ${colors.barBorder} ${colors.barBg} ring-1 ring-black/5 dark:ring-white/10 transition-all duration-300 focus-within:ring-2 focus-within:ring-blue-500/50 focus-within:shadow-blue-500/20`}>
+          <div className={`relative flex items-center gap-2 p-2 rounded-[26px] shadow-lg border ${colors.barBorder} ${colors.barBg} ring-1 ring-black/5 dark:ring-white/10 transition-all duration-300`}>
             
             {/* Custom Provider Dropdown */}
             <div className="relative" ref={dropdownRef}>
@@ -553,7 +553,7 @@ export default function ChatPage() {
 
               {/* Dropdown Menu */}
               {isDropdownOpen && (
-                <div className={`absolute bottom-full mb-2 left-0 min-w-[180px] rounded-xl border ${colors.dropdownBorder} ${colors.dropdownBg} shadow-xl p-1 animate-in fade-in zoom-in-95 duration-100`}>
+                <div className={`absolute bottom-full mb-2 left-0 min-w-[180px] rounded-xl border ${colors.dropdownBorder} ${colors.dropdownBg} shadow-xl p-1 animate-in fade-in zoom-in-95 duration-200 z-50`}>
                   <div className={`px-3 py-2 text-[10px] uppercase font-bold tracking-wider opacity-50 ${colors.dropdownText}`}>Select Model</div>
                   {["gemini", "groq"].map((p) => (
                     <button
@@ -619,6 +619,7 @@ function MessageRow({
     errorBubble: string;
     badge: string;
     subText: string;
+    border: string;
   };
 }) {
   const isUser = msg.role === "user";
