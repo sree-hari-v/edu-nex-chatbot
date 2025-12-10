@@ -6,19 +6,18 @@ export async function groqReply(prompt: string): Promise<string> {
   if (!GROQ_KEY) throw new Error("Missing NEXT_PUBLIC_GROQ_API_KEY");
   
   const res = await fetch(GROQ_URL, {
-    method:  "POST",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization:  `Bearer ${GROQ_KEY}`,
+      Authorization: `Bearer ${GROQ_KEY}`,
     },
     body: JSON.stringify({
       model: MODEL,
-      messages: [{ role: "user", content:  prompt }],
+      messages: [{ role: "user", content: prompt }],
       temperature: 0.3,
     }),
   });
 
-  // Read response as text first to avoid JSON parse crashes
   const raw = await res.text();
 
   if (!raw) {
@@ -37,6 +36,6 @@ export async function groqReply(prompt: string): Promise<string> {
     throw new Error(`Groq error (${res.status}): ${errorMessage}`);
   }
 
-  const text = json?.choices? .[0]?.message?.content || "";
-  return text || "No response from Groq. ";
+  const text = json?.choices?.[0]?.message?.content || "";
+  return text || "No response from Groq.";
 }
