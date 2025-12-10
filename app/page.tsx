@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// --- Icons (Same as before) ---
+// --- Icons ---
 function IconMessageSquare(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" {...props}>
@@ -39,19 +39,24 @@ function IconMoon(props: React.SVGProps<SVGSVGElement>) {
 export default function LandingPage() {
   const [dark, setDark] = useState(false);
 
-  // Force cleanup on mount
+  // Ensure a known baseline on mount, then react to toggles
   useEffect(() => {
     if (typeof document !== "undefined") {
       document.documentElement.classList.remove("dark");
-      document.documentElement.style.colorScheme = "light"; // Force browser to render standard scrollbars etc
+      document.documentElement.style.colorScheme = "light";
     }
   }, []);
 
-  const toggleTheme = () => {
-    setDark((prev) => !prev);
-  };
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.classList.toggle("dark", dark);
+      document.documentElement.style.colorScheme = dark ? "dark" : "light";
+    }
+  }, [dark]);
 
-  // --- MANUAL COLOR LOGIC (Bypasses automatic dark mode detection) ---
+  const toggleTheme = () => setDark((prev) => !prev);
+
+  // --- Manual color palette ---
   const colors = {
     bg: dark ? "bg-neutral-950" : "bg-white",
     textMain: dark ? "text-white" : "text-black",
@@ -65,7 +70,6 @@ export default function LandingPage() {
 
   return (
     <main className={`min-h-screen flex flex-col ${colors.bg}`}>
-      
       {/* Top Nav */}
       <header className={`flex items-center justify-between px-6 md:px-10 py-4 border-b ${colors.border}`}>
         <div className="flex items-center gap-2">
@@ -81,7 +85,7 @@ export default function LandingPage() {
             {dark ? <IconSun className="h-4 w-4" /> : <IconMoon className="h-4 w-4" />}
             <span>{dark ? "Light" : "Dark"} mode</span>
           </button>
-          
+
           {/* Admin Link */}
           <Link
             href="/admin/login"
@@ -95,7 +99,6 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="px-6 md:px-10 flex-1">
         <div className="mx-auto max-w-6xl py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-          
           {/* Left Text */}
           <div>
             <h1 className={`text-4xl md:text-6xl font-extrabold tracking-tight ${colors.textMain}`}>
@@ -105,7 +108,7 @@ export default function LandingPage() {
               Ask about fees, syllabus, admissions, and more. Privacy-first chat—your history stays
               in your browser session and is deleted when you close the tab.
             </p>
-            
+
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/chat"
@@ -123,7 +126,7 @@ export default function LandingPage() {
                 Built with Next.js
               </a>
             </div>
-            
+
             <div className={`mt-6 text-sm ${colors.textSub}`}>
               Nilgiri College of Arts and Science · Powered by Groq, DeepSeek, and Gemini
             </div>
@@ -131,9 +134,7 @@ export default function LandingPage() {
 
           {/* Right Card */}
           <div className={`rounded-2xl border ${colors.border} ${colors.cardBg} p-6 shadow-sm`}>
-            <h2 className={`text-lg font-semibold mb-2 ${colors.textMain}`}>
-              What is EduNex?
-            </h2>
+            <h2 className={`text-lg font-semibold mb-2 ${colors.textMain}`}>What is EduNex?</h2>
             <p className={colors.textMuted}>
               EduNex is a student-first AI assistant for Nilgiri College. It helps you quickly find
               answers about courses, fees, syllabus, admissions, and campus information. Designed
@@ -148,9 +149,7 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className={`px-6 md:px-10 py-10 border-t ${colors.border} text-sm`}>
         <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className={colors.textSub}>
-            © {new Date().getFullYear()} EduNex · Sreehari V.
-          </div>
+          <div className={colors.textSub}>© {new Date().getFullYear()} EduNex · Sreehari V.</div>
           <div className={`flex items-center gap-4 ${colors.textSub}`}>
             <Link href="/chat" className="hover:underline hover:text-blue-500">
               Chat
